@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:task_login_page/screen/signUp.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -22,12 +23,12 @@ class LoginScreen extends StatelessWidget {
                     width: 382,
                     child: Text(
                       'Sign In',
-                      style: TextStyle(fontSize: 20, fontFamily: 'poppins'),
+                      style: TextStyle(fontSize: 20, fontFamily: 'poppins', fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 50.0),
+                  padding: const EdgeInsets.only(top: 40.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -40,7 +41,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 16.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           'Welcome Back!',
                           style: TextStyle(
@@ -49,9 +50,12 @@ class LoginScreen extends StatelessWidget {
                               fontFamily: 'poppins'),
                         ),
                       ),
-                      Text(
-                        'Please login to continue',
-                        style: TextStyle(fontSize: 16, fontFamily: 'poppins'),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          'Please login to continue',
+                          style: TextStyle(fontSize: 16, fontFamily: 'poppins'),
+                        ),
                       ),
                     ],
                   ),
@@ -101,9 +105,11 @@ class LoginScreen extends StatelessWidget {
                               backgroundColor: Colors.grey.shade300,
                             ),
                             onPressed: () {},
-                            child: Text('Sign In', style: TextStyle(fontSize:16 ,color: Colors.blueAccent)),
+                            child: Text('Sign In', style: TextStyle(fontSize:16 ,color: Colors.grey.shade500)),
                           ),
                         ),
+
+                        //Divider widgets
                         Padding(
                           padding: const EdgeInsets.only(top: 16.0, bottom: 16),
                           child: Container(
@@ -132,65 +138,73 @@ class LoginScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Container(
-                              height: 56,
-                              width: 160,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Image.asset('assets/images/Group 1363.png'),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text('Google',style: TextStyle(color: Colors.black, fontSize: 16),)
-                                  ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0,),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Container(
+                                height: 56,
+                                width: 160,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Image.asset('assets/images/Group 1363.png'),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text('Google',style: TextStyle(color: Colors.black, fontSize: 16),)
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              height: 56,
-                              width: 160,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                  borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: TextButton(
-                                onPressed: () {},
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Image.asset('assets/images/Group.png'),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    Text('Facebook',style: TextStyle(color: Colors.black, fontSize: 16),)
-                                  ],
+                              Container(
+                                height: 56,
+                                width: 160,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {},
+                                  child: Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Image.asset('assets/images/Group.png'),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      Text('Facebook',style: TextStyle(color: Colors.black, fontSize: 16),)
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                        Row(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                          children:[
-                            Text('Don’t have any account?'),
-                            TextButton(onPressed: (){}, child: Text('Registration Now', style: TextStyle(fontSize: 16,color: Colors.blueAccent),),
-                            )
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Row(
+                           mainAxisAlignment: MainAxisAlignment.center,
+                            children:[
+                              Text('Don’t have any account?'),
+                              TextButton(onPressed: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=> SignUpPage()));
+                              }, child: Text('Registration Now', style: TextStyle(fontSize: 16,color: Colors.blueAccent),),
+                              )
+                            ],
+                          ),
                         ),
                       ],
                     ),
