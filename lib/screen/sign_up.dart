@@ -1,11 +1,30 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:task_login_page/screen/signIn.dart';
+import 'package:task_login_page/screen/sign_in.dart';
 
-import '../popUP_dialogBox/signUpSuccess.dart';
+import '../sign_up_success.dart';
 
-class SignUpPage extends StatelessWidget {
+class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
+
+  @override
+  State<SignUpPage> createState() => _SignUpPageState();
+}
+
+class _SignUpPageState extends State<SignUpPage> {
+
+  GlobalKey<FormState> _globalKey = GlobalKey();
+  final TextEditingController _textEditingController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  bool _isEnableButton = false;
+
+  void checkButton(){
+    _isEnableButton = _textEditingController.text.isNotEmpty && _passwordController.text.isNotEmpty && _emailController.text.isNotEmpty;
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +43,7 @@ class SignUpPage extends StatelessWidget {
                   child: Container(
                     height: 24,
                     width: 382,
-                    child: Text(
+                    child: const Text(
                       'Sign Up',
                       style: TextStyle(
                           fontSize: 20,
@@ -41,8 +60,8 @@ class SignUpPage extends StatelessWidget {
                     child: Column(
                       children: [
                         Image.asset('assets/images/Vectorscreen_person.png'),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 8.0),
                           child: Text(
                             'Welcome Back!',
                             style: TextStyle(
@@ -51,8 +70,8 @@ class SignUpPage extends StatelessWidget {
                                 fontFamily: 'Popins'),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 8.0),
                           child: Text('Please login to continue',
                               style: TextStyle(
                                   fontSize: 16, fontFamily: 'Popins')),
@@ -64,12 +83,14 @@ class SignUpPage extends StatelessWidget {
 
                 //form area
                 Form(
+                  key: _globalKey,
                   child: Column(
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 16.0, left: 16.0, right: 16.0),
                         child: TextFormField(
+                          controller: _textEditingController,
                           keyboardType: TextInputType.name,
                           decoration: InputDecoration(
                             labelText: 'Your Full Name',
@@ -78,12 +99,23 @@ class SignUpPage extends StatelessWidget {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12)),
                           ),
+                          validator:(String? value){
+                            if(value==null || value.isEmpty){
+                              return 'Enter your name';
+                            }else{
+                              return null;
+                            }
+                          },
+                          onChanged: (value){
+                            checkButton();
+                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 16.0, left: 16.0, right: 16.0),
                         child: TextFormField(
+                          controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             labelText: 'Email',
@@ -92,12 +124,23 @@ class SignUpPage extends StatelessWidget {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12)),
                           ),
+                          validator:(String? value){
+                            if(value==null || value.isEmpty){
+                              return 'Enter your name';
+                            }else{
+                              return null;
+                            }
+                          },
+                          onChanged: (value){
+                            checkButton();
+                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 16.0, left: 16.0, right: 16.0),
                         child: TextFormField(
+                          controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           decoration: InputDecoration(
                             labelText: 'Password',
@@ -106,12 +149,23 @@ class SignUpPage extends StatelessWidget {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12)),
                           ),
+                          validator: (String? value){
+                            if(value == null || value.isEmpty){
+                              return 'Enter you password';
+                            }else{
+                              return null;
+                            }
+                          },
+                          onChanged: (value){
+                            checkButton();
+                          },
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
                             top: 16.0, left: 16.0, right: 16.0),
                         child: TextFormField(
+                          controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           decoration: InputDecoration(
                             labelText: 'Confirm Password',
@@ -120,6 +174,16 @@ class SignUpPage extends StatelessWidget {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12)),
                           ),
+                          validator: (String? value){
+                            if(value == null || value.isEmpty){
+                              return 'Enter you password';
+                            }else{
+                              return null;
+                            }
+                          },
+                          onChanged: (value){
+                            checkButton();
+                          },
                         ),
                       )
                     ],
@@ -136,7 +200,7 @@ class SignUpPage extends StatelessWidget {
                     width: 382,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(12),
-                      color: Colors.grey.shade300,
+                      color: _isEnableButton? Colors.black87 : Colors.grey.shade300,
                     ),
                     child: GestureDetector(
                       onTap: () {
@@ -147,7 +211,7 @@ class SignUpPage extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
-                            color: Colors.grey.shade500),
+                            color: _isEnableButton? Colors.white : Colors.grey.shade500),
                       ),
                     ),
                   ),
@@ -167,7 +231,7 @@ class SignUpPage extends StatelessWidget {
                           endIndent: 8,
                         ),
                       ),
-                      Text(
+                      const Text(
                         'OR CONTINUE WITH',
                         style: TextStyle(fontSize: 16, color: Colors.grey),
                       ),
@@ -205,7 +269,7 @@ class SignUpPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset('assets/images/Group 1363.png'),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Text('Google'),
@@ -227,7 +291,7 @@ class SignUpPage extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Image.asset('assets/images/Group.png'),
-                              SizedBox(
+                              const SizedBox(
                                 width: 10,
                               ),
                               Text('Facebook'),
@@ -246,18 +310,18 @@ class SignUpPage extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text('Already have an account?',
+                        const Text('Already have an account?',
                             style: TextStyle(
                               fontSize: 16,
                             )),
-                        SizedBox(
+                        const SizedBox(
                           width: 10,
                         ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(context, MaterialPageRoute(builder: (context)=> LoginScreen()));
                           },
-                          child: Text(
+                          child: const Text(
                             'Sign In',
                             style: TextStyle(
                               fontSize: 16, color: Colors.blueAccent

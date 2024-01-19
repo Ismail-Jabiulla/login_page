@@ -2,7 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../bottomNavigationBar.dart';
+import '../bottom_navigation_bar.dart';
 
 class HomeScreenPage extends StatelessWidget {
   const HomeScreenPage({super.key});
@@ -36,8 +36,8 @@ class HomeScreenPage extends StatelessWidget {
                       Row(
                         children: [
                           Image.asset('assets/images/Avater.png'),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
+                          const Padding(
+                            padding: EdgeInsets.only(left: 8.0),
                             child: Text(
                               'Hello, Adventurer!',
                               style: TextStyle(

@@ -1,9 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:task_login_page/screen/signUp.dart';
+import 'package:task_login_page/screen/sign_up.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final GlobalKey<FormState> _globalKey = GlobalKey();
+  bool _isButtonEnable = false;
+
+  void checkButton(){
+    _isButtonEnable = _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkButton();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +44,7 @@ class LoginScreen extends StatelessWidget {
                   child: Container(
                     height: 24,
                     width: 382,
-                    child: Text(
+                    child: const Text(
                       'Sign In',
                       style: TextStyle(fontSize: 20, fontFamily: 'poppins', fontWeight: FontWeight.bold),
                     ),
@@ -40,8 +63,8 @@ class LoginScreen extends StatelessWidget {
                           width: 112,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8.0),
                         child: Text(
                           'Welcome Back!',
                           style: TextStyle(
@@ -50,8 +73,8 @@ class LoginScreen extends StatelessWidget {
                               fontFamily: 'poppins'),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 8.0),
                         child: Text(
                           'Please login to continue',
                           style: TextStyle(fontSize: 16, fontFamily: 'poppins'),
@@ -61,40 +84,63 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 Form(
+                  key: _globalKey,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
                     child: Column(
                       children: [
                         TextFormField(
+                          controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Email',
                             hintText: 'exapmple@domain.com',
                             prefixIcon: Icon(Icons.email),
                             border: OutlineInputBorder(),
                           ),
+                          validator: (String? value){
+                            if (value== null || value.isEmpty){
+                              return 'Enter you Email Address';
+                            }else{
+                              return null;
+                            }
+                          },
+                          onChanged: (value){
+                            checkButton();
+                          },
                         ),
                         Padding(
                           padding: const EdgeInsets.only(top: 16.0),
                           child: TextFormField(
+                            controller: _passwordController,
                             keyboardType: TextInputType.visiblePassword,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                                 labelText: 'Password',
                                 hintText: 'Enter Your Password',
                                 prefixIcon: Icon(Icons.lock_outline),
                                 border: OutlineInputBorder()),
+                            validator: (String? value){
+                              if(value == null || value.isEmpty){
+                                return 'Enter Your Password';
+                              }else{
+                                return null;
+                              }
+                            },
+                            onChanged: (value){
+                              checkButton();
+                            },
                           ),
                         ),
 
                         //Forget Password
-                        Container(
-                          alignment: Alignment.centerRight,
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                                textStyle: TextStyle(
-                                    fontSize: 15, fontWeight: FontWeight.bold)),
-                            onPressed: () {},
-                            child: Text('Forget Password?', style: TextStyle(fontSize: 16,color: Colors.blueAccent)),
+                        GestureDetector(
+                          onTap: (){},
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                                child: Text('Forget Password?', style: TextStyle(fontSize: 16,color: Colors.blueAccent)),
+                            ),
                           ),
                         ),
                         Container(
@@ -102,44 +148,50 @@ class LoginScreen extends StatelessWidget {
                           width: 382,
                           child: TextButton(
                             style: TextButton.styleFrom(
-                              backgroundColor: Colors.grey.shade300,
+                              backgroundColor: _isButtonEnable ? Colors.black87 : Colors.grey.shade300,
                             ),
-                            onPressed: () {},
-                            child: Text('Sign In', style: TextStyle(fontSize:16 ,color: Colors.grey.shade500)),
+                            onPressed: () {
+                              if(_globalKey.currentState!.validate()){
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(
+                                    'Log In Successfully'),));
+                              }else{
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text(
+                                    'Check your Email or Password'),));
+                              }
+                            },
+                            child: Text('Sign In', style: TextStyle(fontSize:16 ,color: _isButtonEnable ? Colors.white : Colors.grey.shade500)),
                           ),
                         ),
 
                         //Divider widgets
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16.0, bottom: 16),
-                          child: Container(
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  child: Divider(
-                                    color: Colors.grey,
-                                    thickness: 2,
-                                    indent: 8,
-                                    endIndent: 8,
-                                  ),
+                        const Padding(
+                          padding: EdgeInsets.only(top: 16.0, bottom: 16),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                child: Divider(
+                                  color: Colors.grey,
+                                  thickness: 2,
+                                  indent: 8,
+                                  endIndent: 8,
                                 ),
-                                Text('OR CONTINUE WITH'),
-                                Expanded(
-                                  child: Divider(
-                                    color: Colors.grey,
-                                    thickness: 2,
-                                    indent: 6,
-                                    endIndent: 6,
-                                  ),
-                                )
-                              ],
-                            ),
+                              ),
+                              Text('OR CONTINUE WITH'),
+                              Expanded(
+                                child: Divider(
+                                  color: Colors.grey,
+                                  thickness: 2,
+                                  indent: 6,
+                                  endIndent: 6,
+                                ),
+                              )
+                            ],
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 16.0,),
+                          padding: const EdgeInsets.only(top: 16.0, left: 16, right: 16),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -154,12 +206,13 @@ class LoginScreen extends StatelessWidget {
                                   onTap: () {},
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Image.asset('assets/images/Group 1363.png'),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Text('Google',style: TextStyle(color: Colors.black, fontSize: 16),)
@@ -177,12 +230,14 @@ class LoginScreen extends StatelessWidget {
                                 child: GestureDetector(
                                   onTap: () {},
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Image.asset('assets/images/Group.png'),
-                                      SizedBox(
+                                      const SizedBox(
                                         width: 10,
                                       ),
                                       Text('Facebook',style: TextStyle(color: Colors.black, fontSize: 16),)
@@ -198,10 +253,10 @@ class LoginScreen extends StatelessWidget {
                           child: Row(
                            mainAxisAlignment: MainAxisAlignment.center,
                             children:[
-                              Text('Don’t have any account?'),
+                              const Text('Don’t have any account?'),
                               TextButton(onPressed: (){
                                 Navigator.push(context, MaterialPageRoute(builder: (context)=> SignUpPage()));
-                              }, child: Text('Registration Now', style: TextStyle(fontSize: 16,color: Colors.blueAccent),),
+                              }, child: const Text('Registration Now', style: TextStyle(fontSize: 16,color: Colors.blueAccent),),
                               )
                             ],
                           ),
@@ -218,3 +273,4 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
+
